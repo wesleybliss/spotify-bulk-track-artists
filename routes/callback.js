@@ -37,14 +37,16 @@ module.exports = function(req, res) {
 
         request.post(authOptions, function(error, response, body) {
             if (!error && response.statusCode === 200) {
-
-                var access_token = body.access_token,
-                    refresh_token = body.refresh_token;
+                
+                req.session.access_token = body.access_token;
+                
+                config.access_token = body.access_token,
+                config.refresh_token = body.refresh_token;
 
                 var options = {
                     url: 'https://api.spotify.com/v1/me',
                     headers: {
-                        'Authorization': 'Bearer ' + access_token
+                        'Authorization': 'Bearer ' + config.access_token
                     },
                     json: true
                 };
@@ -57,8 +59,8 @@ module.exports = function(req, res) {
                 // we can also pass the token to the browser to make requests from there
                 res.redirect('/#' +
                     querystring.stringify({
-                        access_token: access_token,
-                        refresh_token: refresh_token
+                        access_token: config.access_token,
+                        refresh_token: config.refresh_token
                     }));
             } else {
                 res.redirect('/#' +
