@@ -86,6 +86,48 @@ Client.prototype.setupListFollowedArtistsButton = function() {
     }, false);
 };
 
+/*Client.prototype.setupFollowButton = function() {
+    
+    console.log('setupFollow');
+    
+    document.getElementById('track-new-artists').addEventListener('click', function() {
+        
+        var artists = $('#new-artists').val().toString();
+        if ( !artists || artists.length < 1 ) {
+            alert('nothing to track');
+            return false;
+        }
+        
+        $.ajax({
+            url: '/follow',
+            data: {
+                artists:
+            }
+        }).done( function(data) {
+            
+            console.log('data', data);
+            
+            if ( !this.followingTemplate ) {
+                this.followingSource   = $('#following-template').html(),
+                this.followingTemplate = Handlebars.compile(this.followingSource);
+            }
+            
+            this.artists = data.artists;
+            
+            console.log('this.artists set to', this.artists);
+            
+            $('#following').html( this.followingTemplate({
+                artists: this.artists
+            }));
+            
+            renderFollowing(this.artists);
+            
+        });
+        
+    });
+    
+}*/
+
 Client.prototype.renderInitialScreen = function() {
     $('#login').show();
     $('#loggedin').hide();
