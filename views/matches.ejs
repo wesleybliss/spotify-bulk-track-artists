@@ -1,0 +1,43 @@
+<%
+var action = action || false;
+var artists = artists || [];
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <!-- Initial view -->
+    <% if ( !action ) { %>
+    <p>Track Artists:</p>
+    <form action="/search" method="post">
+        <input type="hidden" name="action" value="search" />
+        <textarea name="artists" rows="20" cols="75"></textarea>
+        <br />
+        <input type="submit" value="Search for these artists" />
+    </form>
+    <% } %>
+    
+    <!-- Artists submitted for search -->
+    <% if ( action && action == 'search' && artists ) { %>
+    <p>Matching artists (confirm correct):</p>
+    <form action="/track" method="post">
+        <input type="hidden" name="action" value="track" />
+        <table>
+            <% artists.forEach( function( artist ) { %>
+            <tr>
+                <td><%= artist.query %></td>
+                <td><%= artist.match %></td>
+            </tr>
+            <% }) %>
+        </table>
+    </form>
+    <% } %>
+    
+</body>
+</html>

@@ -3,7 +3,8 @@ var config = require('../config'),
     lib = require('../lib')
     request = require('request'),
     querystring  = require('querystring'),
-    cookieParser = require('cookie-parser')
+    cookieParser = require('cookie-parser'),
+    session      = require('express-session')
 ;
 
 module.exports = function(req, res) {
@@ -13,15 +14,22 @@ module.exports = function(req, res) {
 
     var code = req.query.code || null;
     var state = req.query.state || null;
-    var storedState = req.cookies ? req.cookies[config.stateKey] : null;
+    var storedState = req.cookies ? session[config.stateKey] : null;
 
     if (state === null || state !== storedState) {
+        
+        var flash = 'unknown';
+        if ( state === null ) flash = 'null state';
+        else if ( state !== storedState ) flash = 'stored mismatch';
+        
         res.redirect('/#' +
             querystring.stringify({
-                error: 'state_mismatch'
+                error: 'state_mismatch',
+                flash: flash + ' -- ' + state + ', ' + storedState
             }));
     } else {
         res.clearCookie(config.stateKey);
+        session[config.stateKey] = null;
         var authOptions = {
             url: 'https://accounts.spotify.com/api/token',
             form: {
@@ -42,6 +50,9 @@ module.exports = function(req, res) {
                 
                 config.access_token = body.access_token,
                 config.refresh_token = body.refresh_token;
+                
+                req.cookies.access_token = body.access_token;
+                req.cookies.refresh_token = body.refresh_token;
 
                 var options = {
                     url: 'https://api.spotify.com/v1/me',

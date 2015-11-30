@@ -32,9 +32,11 @@
                 <button class="btn btn-default" id="list-followed-artists">List followed artists</button>
                 <div>
                     <p>Follow More</p>
-                    <textarea id="new-artists" rows="20" cols="70"></textarea>
-                    <br />
-                    <button class="btn btn-default" id="track-new-artists">Track New Artists</button>
+                    <form action="/search" method="post">
+                        <textarea name="artists" rows="20" cols="70"></textarea>
+                        <br />
+                        <input type="submit" class="btn btn-default" value="Track New Artists" />
+                    </form>
                 </div>
             </div>
             <div id="following"></div>

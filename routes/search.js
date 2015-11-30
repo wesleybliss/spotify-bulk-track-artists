@@ -1,11 +1,13 @@
 
-var getArtist = require('../util/follow');
+var config = require('../config'),
+    getArtist = require('../util/follow')
+;
 
 var matches = [];
 
-var search = function( oname, loop ) {
+var search = function( token, oname, loop ) {
     console.log( 'info', 'Fetching artist:', oname );
-    getArtist( oname, function( err, name ) {
+    getArtist( token, oname, function( err, name ) {
         if ( err ) {
             console.log( 'error', err );
         }
@@ -22,18 +24,27 @@ var search = function( oname, loop ) {
 
 module.exports = function( req, res, next ) {
     
-    if ( !req.body.artists ) {
-        return res.render( 'error' );
+    var artists = req.body.artists || null;
+    
+    if ( !artists ) {
+        //return res.render( 'error' );
+        return res.render( 'matches', {
+            title:  'Spotify Bulk Import Artists',
+            action: false,
+            artists: false
+        });
     }
     
-    var queries = req.body.artists.split('\n');
+    var queries = artists.split('\n');
+    
+    console.log('info', 'searching artists w/token ', req.session.access_token);
     
     for ( var i in queries ) {
-        search( queries[i], function() {
+        search( req.session.access_token, queries[i], function() {
             console.log( 'loop, matches ', matches.length, ', queries ', queries.length );
             if ( matches.length === queries.length ) {
                 console.log( 'loop', 'Finished, rendering' );
-                res.render( 'index', {
+                res.render( 'matches', {
                     title:  'Spotify Bulk Import Artists',
                     action: 'search',
                     artists: matches

@@ -188,11 +188,13 @@ Client.prototype.run = function() {
     this.refresh_token = params.refresh_token,
     this.artists       = params.artists,
     this.error         = params.error;
+    this.flash         = params.flash;
     
     if ( this.error ) {
         
         // @todo Better error handling
-        alert('There was an error during the authentication');
+        alert('There was an error during the authentication\n\n' +
+            this.flash );
         
     }
     else {
