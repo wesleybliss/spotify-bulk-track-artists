@@ -1,0 +1,48 @@
+<%
+var action = action || false;
+var artists = artists || [];
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <!-- Initial view -->
+    <% if ( !action ) { %>
+    <p>Track Artists:</p>
+    <form action="/search" method="post">
+        <input type="hidden" name="action" value="search" />
+        <textarea name="artists" rows="20" cols="75"></textarea>
+        <br />
+        <input type="submit" value="Search for these artists" />
+    </form>
+    <% } %>
+    
+    <!-- Artists submitted for search -->
+    <% if ( action && action == 'search' && artists ) { %>
+    <p>Matching artists (confirm correct):</p>
+    <form action="/track" method="post">
+        <input type="hidden" name="action" value="track" />
+        <table>
+            <% artists.forEach( function( artist ) { %>
+            <input type="hidden" name="artists[<%= artist.id %>][name]" value="<%= artist.match %>" />
+            <tr>
+                <td><%= artist.query %></td>
+                <td><%= artist.match %></td>
+                <td><%= artist.id %></td>
+                <td><input type="checkbox" name="artists[<%= artist.id %>][id]" value="<%= artist.id %>" checked="true" /></td>
+            </tr>
+            <% }) %>
+        </table>
+        <br />
+        <input type="submit" value="Track these artists in Spotify" />
+    </form>
+    <% } %>
+    
+</body>
+</html>

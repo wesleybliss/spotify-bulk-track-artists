@@ -1,0 +1,20 @@
+
+stripe( even = #eee, odd = #ccc )
+    tr
+        background-color odd
+        &.even
+        &:nth-child(even)
+            background-color even
+
+body
+  padding: 50px
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+
+a
+  color: #00B7FF
+
+table
+    stripe()
+    td
+        margin 0
+        padding 8px 16px

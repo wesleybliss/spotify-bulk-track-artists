@@ -1,0 +1,39 @@
+<%
+var artists = artists || [];
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <p>Newly Tracked Artists Results</p>
+    
+    <% if (!artists) { %>
+        
+        <p>Failed b/c <%= error %></p>
+        
+    <% } else { %>
+        
+        <table>
+            <% artists.forEach( function( artist ) { %>
+            <tr>
+                <td><%= artist.name %></td>
+                <td><%= artist.success ? 'Success' : 'Failed' %></td>
+                <td><%= artist.failReason %></td>
+            </tr>
+            <% }) %>
+        </table>
+        
+        <p>
+            <a href="/following">See all followed artists</a>
+        </p>
+        
+    <% } %>
+    
+</body>
+</html>

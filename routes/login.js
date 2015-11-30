@@ -1,13 +1,16 @@
 
 var config = require('../config'),
     lib = require('../lib'),
-    querystring  = require('querystring')
+    querystring  = require('querystring'),
+    session      = require('express-session')
 ;
 
 module.exports = function( req, res ) {
     
     var state = lib.generateRandomString(16);
-    res.cookie( config.stateKey, state );
+    req.cookies[config.stateKey] = state;
+    
+    session[config.stateKey] = state;
     
     // your application requests authorization
     var scope = 'user-read-private user-read-email user-follow-read user-follow-modify';

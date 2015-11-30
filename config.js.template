@@ -1,0 +1,9 @@
+module.exports = {
+	
+    client_id     : 'set me',
+    client_secret : 'set me',
+    redirect_uri  : 'http://localhost:8888/callback',
+    
+    stateKey: 'spotify_auth_state'
+    
+};
