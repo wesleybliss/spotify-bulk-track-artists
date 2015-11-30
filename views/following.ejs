@@ -1,0 +1,35 @@
+<%
+var artists = artists || [];
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    
+    <h1><%= title %></h1>
+    
+    <p>Newly Tracked Artists Results (<%= artists.length %>)</p>
+    
+    <% if (!artists) { %>
+        
+        <p>Failed b/c ???</p>
+        
+    <% } else { %>
+        
+        <ol class="artists">
+            <% artists.forEach( function( artist ) { %>
+            <li>
+                <img src="<%= artist.images[0] && artist.images[0].url ? artist.images[0].url : 'unknown' %>" width="64" height="64" />
+                <br />
+                <div><%= artist.name %></div>
+            </li>
+            <% }) %>
+        </ol>
+        
+    <% } %>
+    
+</body>
+</html>

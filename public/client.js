@@ -57,7 +57,7 @@ Client.prototype.setupListFollowedArtistsButton = function() {
     document.getElementById('list-followed-artists').addEventListener('click', function() {
         $.ajax({
             url: '/following',
-            data: {}
+            data: {json: true}
         }).done(function(data) {
             
             console.log('data', data);

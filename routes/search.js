@@ -7,7 +7,7 @@ var matches = [];
 
 var search = function( token, oname, loop ) {
     console.log( 'info', 'Fetching artist:', oname );
-    getArtist( token, oname, function( err, name ) {
+    getArtist( token, oname, function( err, name, id ) {
         if ( err ) {
             console.log( 'error', err );
         }
@@ -15,11 +15,27 @@ var search = function( token, oname, loop ) {
             console.log( 'info', 'Found artist', oname, '-->', (err ? err : name) );
             matches.push({
                 query: oname,
-                match: (err ? err : name)
+                match: (err ? err : name),
+                id:    (err ? null : id)
             });
+            console.log(matches);
         }
         loop();
     });
+};
+
+var getMissing = function( queries ) {
+    var missing = [];
+    for ( var i in queries ) {
+        for ( var j in matches ) {
+            var found = false;
+            if ( queries[i] === matches[j].query ) {
+                found = true;
+            }
+        }
+        if ( !found ) missing.push( queries[i] );
+    }
+    return missing;
 };
 
 module.exports = function( req, res, next ) {
@@ -42,6 +58,10 @@ module.exports = function( req, res, next ) {
     for ( var i in queries ) {
         search( req.session.access_token, queries[i], function() {
             console.log( 'loop, matches ', matches.length, ', queries ', queries.length );
+            
+            var missing = getMissing(queries);
+            if ( missing.length > 0 ) console.log('MISSING', JSON.stringify(missing));
+            
             if ( matches.length === queries.length ) {
                 console.log( 'loop', 'Finished, rendering' );
                 res.render( 'matches', {

@@ -37,7 +37,8 @@ var routes = {
 	callback: 		new require('./routes/callback'),
 	refreshToken: 	new require('./routes/refresh_token'),
 	listFollowing:  new require('./routes/list_following'),
-	search:         new require('./routes/search')
+	search:         new require('./routes/search'),
+	track:          new require('./routes/track')
 };
 
 app.use(express.static(__dirname + '/public'))
@@ -48,6 +49,7 @@ app.get( '/callback',		routes.callback );
 app.get( '/refreshtoken',	routes.refreshToken );
 app.get( '/following',	    routes.listFollowing );
 app.post( '/search', 		routes.search );
+app.post( '/track', 		routes.track );
 
 
 //console.log('Listening on 8888');

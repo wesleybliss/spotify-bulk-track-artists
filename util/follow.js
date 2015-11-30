@@ -40,8 +40,9 @@ var getArtist = function( token, name, done /*=>(err, name)*/ ) {
             if ( !body.artists.items[0].name ) {
                 return done( 'artist found, no name', null );
             }
+            console.log('follow.js', JSON.stringify(body.artists.items[0]));
             console.log( 'follow.js', body.artists.items[0].name );
-            return done( false, body.artists.items[0].name );
+            return done( false, body.artists.items[0].name, body.artists.items[0].id );
         }
         else {
             return done( '(' + response.statusCode + ') '

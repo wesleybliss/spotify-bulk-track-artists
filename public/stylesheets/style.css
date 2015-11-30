@@ -5,5 +5,16 @@ body {
 a {
   color: #00b7ff;
 }
+table tr {
+  background-color: #ccc;
+}
+table tr.even,
+table tr:nth-child(even) {
+  background-color: #eee;
+}
+table td {
+  margin: 0;
+  padding: 8px 16px;
+}
 
 /*# sourceMappingURL=style.css.map */

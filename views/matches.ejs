@@ -30,12 +30,17 @@ var artists = artists || [];
         <input type="hidden" name="action" value="track" />
         <table>
             <% artists.forEach( function( artist ) { %>
+            <input type="hidden" name="artists[<%= artist.id %>][name]" value="<%= artist.match %>" />
             <tr>
                 <td><%= artist.query %></td>
                 <td><%= artist.match %></td>
+                <td><%= artist.id %></td>
+                <td><input type="checkbox" name="artists[<%= artist.id %>][id]" value="<%= artist.id %>" checked="true" /></td>
             </tr>
             <% }) %>
         </table>
+        <br />
+        <input type="submit" value="Track these artists in Spotify" />
     </form>
     <% } %>
     
